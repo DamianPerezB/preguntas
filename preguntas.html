@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preguntas ❤️</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e7,#fff1f7);
+    font-family:Arial, sans-serif;
+}
+
+.contenedor{
+    width:90%;
+    max-width:650px;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+h1{
+    color:#d63384;
+    margin-bottom:25px;
+}
+
+#pregunta{
+    min-height:120px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.4rem;
+    line-height:1.5;
+    color:#333;
+    opacity:1;
+}
+
+button{
+    border:none;
+    background:#d63384;
+    color:white;
+    padding:14px 26px;
+    border-radius:10px;
+    font-size:1rem;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.oculto{
+    display:none;
+}
+
+/* Animación de salida */
+.fade-out{
+    opacity:0;
+    transform:translateY(10px);
+    transition:all .25s ease;
+}
+
+/* Animación de entrada */
+.fade-in{
+    animation:aparecer .45s ease;
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(15px) scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+
+    <h1>Preguntas para Parejas ❤️</h1>
+
+    <div id="pregunta">
+        Presiona el botón para comenzar.
+    </div>
+
+    <button id="btnComenzar">
+        Comenzar
+    </button>
+
+    <button id="btnNueva" class="oculto">
+        Nueva pregunta
+    </button>
+
+</div>
+
+<script>
+
+const preguntas = [
+"¿Qué fue lo que más te llamó la atención de mí cuando nos conocimos?",
+"¿Qué aspecto de nuestra relación te hace sentir más seguro/a?",
+"¿Qué es algo que te cuesta confiar en otras personas?",
+"¿Hay algo que nunca me has contado por vergüenza?",
+"¿Qué podría hacer para que confíes más en mí?",
+"¿Qué significa para ti la lealtad en una pareja?",
+"¿Cuál es tu mayor miedo dentro de una relación?",
+"¿Qué harías si sintieras que estamos alejándonos emocionalmente?",
+"¿Qué valoras más: honestidad, respeto o compromiso?",
+"¿Qué situación pondría a prueba tu confianza en una pareja?",
+
+"¿Cuál ha sido el problema más difícil que has enfrentado en tu vida?",
+"¿Cómo prefieres resolver un conflicto en pareja?",
+"¿Qué error personal te enseñó una lección importante?",
+"¿Qué haces cuando te sientes frustrado/a?",
+"¿Cómo te gustaría que te apoyara en un mal momento?",
+"¿Qué problema actual te preocupa más?",
+"¿Qué aprendiste de relaciones pasadas o experiencias anteriores?",
+"¿Qué actitud de una pareja puede lastimarte más?",
+"¿Qué crees que deberíamos hacer si tenemos una discusión fuerte?",
+"¿Qué es algo que te cuesta perdonar?",
+
+"¿Cuál es tu comida favorita?",
+"¿Qué tipo de música escuchas cuando quieres sentirte bien?",
+"¿Cuál es tu película favorita de todos los tiempos?",
+"¿Qué actividad te gustaría que hiciéramos juntos más seguido?",
+"¿Qué lugar del mundo te gustaría visitar?",
+"¿Prefieres una noche tranquila o una aventura improvisada?",
+"¿Cuál es tu estación favorita del año?",
+"¿Qué hobby te gustaría aprender?",
+"¿Qué tipo de regalos te hacen más ilusión?",
+"¿Qué pequeña cosa te alegra el día?",
+
+"¿Qué detalle romántico te gustaría recibir algún día?",
+"¿Cuál es tu idea de una cita perfecta?",
+"¿Qué momento romántico recuerdas con más cariño?",
+"¿Qué te hace sentir querido/a?",
+"¿Te gustan más las palabras o las acciones para demostrar cariño?",
+"¿Cómo imaginas una noche ideal juntos?",
+"¿Qué costumbre romántica te gustaría que tuviéramos?",
+"¿Qué canción te recuerda al amor?",
+"¿Qué cosa sencilla te parece muy romántica?",
+"¿Qué te enamora de una persona además de su apariencia?",
+
+"¿Qué opinas de hablar abiertamente sobre deseos e intimidad?",
+"¿Qué es lo más importante para sentirte cómodo/a en momentos íntimos?",
+"¿Qué te ayuda a sentir confianza física con alguien?",
+"¿Qué significa para ti la conexión emocional antes de la física?",
+"¿Qué crees que hace especial un momento íntimo?",
+"¿Qué te gustaría descubrir juntos con el tiempo?",
+"¿Qué límites consideras importantes respetar siempre?",
+"¿Cómo te gustaría comunicar tus necesidades en una relación?",
+"¿Qué te parece más atractivo: la confianza o la espontaneidad?",
+"¿Qué te hace sentir más cercano/a a tu pareja?",
+
+"¿Cuál es tu recuerdo favorito de la infancia?",
+"¿Qué travesura hiciste cuando eras pequeño/a?",
+"¿Quién fue una influencia importante durante tu crecimiento?",
+"¿Qué sueño tenías cuando eras niño/a?",
+"¿Qué era lo que más te emocionaba de las vacaciones?",
+"¿Qué juguete o actividad recuerdas con cariño?",
+"¿Qué consejo le darías a tu versión de 10 años?",
+"¿Qué recuerdo familiar te hace sonreír?",
+"¿Qué miedo tenías de pequeño/a?",
+"¿Qué experiencia de tu infancia te marcó más?",
+
+"¿Dónde te ves dentro de cinco años?",
+"¿Cuál es una meta importante que quieres cumplir?",
+"¿Qué proyecto personal te emociona actualmente?",
+"¿Qué significa para ti tener éxito?",
+"¿Qué sueño aún no has cumplido?",
+"¿Qué habilidad te gustaría desarrollar?",
+"¿Qué te gustaría lograr juntos como pareja?",
+"¿Cuál es tu mayor motivación para seguir adelante?",
+"¿Qué te gustaría aprender este año?",
+"¿Qué experiencia quieres vivir al menos una vez en la vida?",
+
+"¿Qué cualidad admiras más en una persona?",
+"¿Qué característica tuya te hace sentir orgulloso/a?",
+"¿Qué valor intentas seguir todos los días?",
+"¿Qué es algo que pocas personas entienden sobre ti?",
+"¿Qué te hace sentir auténtico/a?",
+"¿Qué significa para ti la felicidad?",
+"¿Qué hábito te gustaría cambiar?",
+"¿Qué te da energía cuando estás desanimado/a?",
+"¿Qué aspecto de tu personalidad te gustaría mejorar?",
+"¿Qué es algo que nunca quisieras perder de ti mismo/a?",
+
+"¿Cuál ha sido el momento en que más ganas te dieron de besarme?",
+"¿Qué parte de mi cuerpo te gusta más mirar?",
+"¿Qué prenda de ropa mía te parece más atractiva?",
+"¿Cuál fue la vez que más te costó disimular que te gustaba?",
+"¿Qué pensamiento sobre mí te ha hecho sonreír estando a solas?",
+"¿Qué tan importante es la tensión sexual en una relación para ti?",
+"¿Qué es lo que más te gusta cuando estamos abrazados?",
+"¿Qué situación contigo te parece especialmente provocativa?",
+"¿Cuál es el cumplido más atrevido que te gustaría recibir de mí?",
+"¿Qué es algo que te gustaría que hiciera más seguido para hacerte sentir deseado/a?",
+"¿Qué tan celoso/a te pondrías si alguien más coqueteara conmigo?",
+"¿Cuál ha sido tu fantasía romántica favorita sobre nosotros?",
+"¿Qué parte de una cita suele generar más química para ti?",
+"¿Qué es lo que más te gusta de nuestros momentos a solas?",
+"¿Qué tan importante es la atracción física para mantener viva una relación?",
+"¿Qué detalle mío te parece más sexy?",
+"¿Cuál ha sido el momento más atrevido que hemos compartido?",
+"¿Qué te gustaría preguntarme sobre mis gustos en la intimidad?",
+"¿Qué crees que nos da más química como pareja?",
+"¿Qué te gustaría que descubriéramos juntos sobre nuestra conexión?",
+
+"¿Qué harías si ganáramos la lotería mañana?",
+"¿Qué superpoder elegirías y por qué?",
+"¿Qué tres cosas llevarías a una isla desierta?",
+"¿Qué época histórica te gustaría visitar?",
+"¿Qué harías durante un año sabático?",
+"¿Qué famoso te gustaría conocer?",
+"¿Qué trabajo tendrías si el dinero no importara?",
+"¿Qué lugar ficticio te gustaría visitar?",
+"¿Qué reto divertido te gustaría hacer juntos?",
+"¿Qué harías si pudieras viajar al futuro por un día?",
+
+"¿Cuál ha sido el día más feliz de tu vida hasta ahora?",
+"¿Qué momento contigo esperas recordar dentro de muchos años?",
+"¿Qué significa para ti construir una relación sana?",
+"¿Qué te gustaría que nunca cambiara entre nosotros?",
+"¿Qué hábito crees que fortalece una relación?",
+"¿Qué es algo que aprecias de mí y quizá no dices seguido?",
+"¿Qué aventura te gustaría que viviéramos juntos?",
+"¿Cómo te gustaría celebrar un aniversario ideal?",
+"¿Qué crees que nos hace diferentes de otras parejas?",
+"¿Qué te emociona más sobre nuestro futuro?"
+];
+
+const pregunta = document.getElementById("pregunta");
+const btnComenzar = document.getElementById("btnComenzar");
+const btnNueva = document.getElementById("btnNueva");
+
+function obtenerPreguntaAleatoria() {
+    return preguntas[Math.floor(Math.random() * preguntas.length)];
+}
+
+function mostrarPregunta() {
+
+    pregunta.classList.add("fade-out");
+
+    setTimeout(() => {
+
+        pregunta.textContent = obtenerPreguntaAleatoria();
+
+        pregunta.classList.remove("fade-out");
+        pregunta.classList.remove("fade-in");
+
+        void pregunta.offsetWidth; 
+
+        pregunta.classList.add("fade-in");
+
+    }, 250);
+}
+
+btnComenzar.addEventListener("click", () => {
+
+    btnComenzar.classList.add("oculto");
+    btnNueva.classList.remove("oculto");
+
+    mostrarPregunta();
+});
+
+btnNueva.addEventListener("click", mostrarPregunta);
+
+</script>
+
+</body>
+</html>
