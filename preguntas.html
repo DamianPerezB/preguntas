@@ -17,7 +17,7 @@ body{
     justify-content:center;
     align-items:center;
     background:linear-gradient(135deg,#ffd6e7,#fff1f7);
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 .contenedor{
@@ -32,7 +32,6 @@ body{
 
 h1{
     color:#d63384;
-    margin-bottom:25px;
 }
 
 #pregunta{
@@ -42,8 +41,7 @@ h1{
     justify-content:center;
     font-size:1.4rem;
     line-height:1.5;
-    color:#333;
-    opacity:1;
+    margin:25px 0;
 }
 
 button{
@@ -65,14 +63,12 @@ button:hover{
     display:none;
 }
 
-/* Animación de salida */
 .fade-out{
     opacity:0;
     transform:translateY(10px);
     transition:all .25s ease;
 }
 
-/* Animación de entrada */
 .fade-in{
     animation:aparecer .45s ease;
 }
@@ -93,7 +89,7 @@ button:hover{
 
 <div class="contenedor">
 
-    <h1>Preguntas para Parejas ❤️</h1>
+    <h1>Preguntas ❤️</h1>
 
     <div id="pregunta">
         Presiona el botón para comenzar.
@@ -116,7 +112,6 @@ const preguntas = [
 "¿Qué aspecto de nuestra relación te hace sentir más seguro/a?",
 "¿Qué es algo que te cuesta confiar en otras personas?",
 "¿Hay algo que nunca me has contado por vergüenza?",
-"¿Qué podría hacer para que confíes más en mí?",
 "¿Qué significa para ti la lealtad en una pareja?",
 "¿Cuál es tu mayor miedo dentro de una relación?",
 "¿Qué harías si sintieras que estamos alejándonos emocionalmente?",
@@ -134,13 +129,11 @@ const preguntas = [
 "¿Qué crees que deberíamos hacer si tenemos una discusión fuerte?",
 "¿Qué es algo que te cuesta perdonar?",
 
-"¿Cuál es tu comida favorita?",
 "¿Qué tipo de música escuchas cuando quieres sentirte bien?",
 "¿Cuál es tu película favorita de todos los tiempos?",
 "¿Qué actividad te gustaría que hiciéramos juntos más seguido?",
 "¿Qué lugar del mundo te gustaría visitar?",
 "¿Prefieres una noche tranquila o una aventura improvisada?",
-"¿Cuál es tu estación favorita del año?",
 "¿Qué hobby te gustaría aprender?",
 "¿Qué tipo de regalos te hacen más ilusión?",
 "¿Qué pequeña cosa te alegra el día?",
@@ -168,7 +161,6 @@ const preguntas = [
 "¿Qué te hace sentir más cercano/a a tu pareja?",
 
 "¿Cuál es tu recuerdo favorito de la infancia?",
-"¿Qué travesura hiciste cuando eras pequeño/a?",
 "¿Quién fue una influencia importante durante tu crecimiento?",
 "¿Qué sueño tenías cuando eras niño/a?",
 "¿Qué era lo que más te emocionaba de las vacaciones?",
@@ -222,9 +214,7 @@ const preguntas = [
 "¿Qué te gustaría que descubriéramos juntos sobre nuestra conexión?",
 
 "¿Qué harías si ganáramos la lotería mañana?",
-"¿Qué superpoder elegirías y por qué?",
 "¿Qué tres cosas llevarías a una isla desierta?",
-"¿Qué época histórica te gustaría visitar?",
 "¿Qué harías durante un año sabático?",
 "¿Qué famoso te gustaría conocer?",
 "¿Qué trabajo tendrías si el dinero no importara?",
@@ -232,7 +222,6 @@ const preguntas = [
 "¿Qué reto divertido te gustaría hacer juntos?",
 "¿Qué harías si pudieras viajar al futuro por un día?",
 
-"¿Cuál ha sido el día más feliz de tu vida hasta ahora?",
 "¿Qué momento contigo esperas recordar dentro de muchos años?",
 "¿Qué significa para ti construir una relación sana?",
 "¿Qué te gustaría que nunca cambiara entre nosotros?",
@@ -244,28 +233,54 @@ const preguntas = [
 "¿Qué te emociona más sobre nuestro futuro?"
 ];
 
-const pregunta = document.getElementById("pregunta");
+// Referencias HTML
+const preguntaEl = document.getElementById("pregunta");
 const btnComenzar = document.getElementById("btnComenzar");
 const btnNueva = document.getElementById("btnNueva");
 
-function obtenerPreguntaAleatoria() {
-    return preguntas[Math.floor(Math.random() * preguntas.length)];
+// Copia para evitar repeticiones
+let preguntasDisponibles = [...preguntas];
+
+// Mezclar preguntas
+function mezclarPreguntas() {
+    for (let i = preguntasDisponibles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [preguntasDisponibles[i], preguntasDisponibles[j]] =
+        [preguntasDisponibles[j], preguntasDisponibles[i]];
+    }
+}
+
+mezclarPreguntas();
+
+function obtenerPregunta() {
+
+    if (preguntasDisponibles.length === 0) {
+
+        preguntasDisponibles = [...preguntas];
+
+        mezclarPreguntas();
+
+        alert("🎉 Ya se mostraron todas las preguntas. Comenzando una nueva ronda.");
+    }
+
+    return preguntasDisponibles.pop();
 }
 
 function mostrarPregunta() {
 
-    pregunta.classList.add("fade-out");
+    preguntaEl.classList.add("fade-out");
 
     setTimeout(() => {
 
-        pregunta.textContent = obtenerPreguntaAleatoria();
+        preguntaEl.textContent = obtenerPregunta();
 
-        pregunta.classList.remove("fade-out");
-        pregunta.classList.remove("fade-in");
+        preguntaEl.classList.remove("fade-out");
+        preguntaEl.classList.remove("fade-in");
 
-        void pregunta.offsetWidth; 
+        void preguntaEl.offsetWidth;
 
-        pregunta.classList.add("fade-in");
+        preguntaEl.classList.add("fade-in");
 
     }, 250);
 }
